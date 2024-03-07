@@ -6,9 +6,10 @@ import retrofit2.http.GET
 interface ProductsApiService {
 
     @GET(MARKET_ITEMS_REQUEST)
-    fun getMarketItems(): RequestMarketItemsContainer
+    suspend fun getMarketItems(): RequestMarketItemsContainer
 
     companion object {
         private const val MARKET_ITEMS_REQUEST = "/products"
     }
+
 }
