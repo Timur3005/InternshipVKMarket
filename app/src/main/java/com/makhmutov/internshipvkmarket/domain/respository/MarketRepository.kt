@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface MarketRepository {
 
-    val marketItemsFlow: StateFlow<MarketItemEntity>
+    val marketItemsFlow: StateFlow<List<MarketItemEntity>>
     suspend fun requestMarketItems()
 
 }
