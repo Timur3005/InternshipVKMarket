@@ -1,11 +1,11 @@
 package com.makhmutov.internshipvkmarket.domain.respository
 
-import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
+import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemResult
 import kotlinx.coroutines.flow.StateFlow
 
 interface MarketRepository {
 
-    val marketItemsFlow: StateFlow<MarketItemEntity>
+    val marketItemsFlow: StateFlow<RequestMarketItemResult>
     suspend fun requestMarketItems()
 
 }
