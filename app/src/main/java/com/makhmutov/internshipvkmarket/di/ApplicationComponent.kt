@@ -1,6 +1,7 @@
 package com.makhmutov.internshipvkmarket.di
 
 import com.makhmutov.internshipvkmarket.presentation.MainActivity
+import com.makhmutov.internshipvkmarket.presentation.viewmodelfactory.ViewModelFactory
 import dagger.Component
 
 @Component(
@@ -12,8 +13,10 @@ import dagger.Component
 interface ApplicationComponent {
     fun inject(activity: MainActivity)
 
+    fun getViewModelFactory(): ViewModelFactory
+
     @Component.Factory
-    interface Factory{
+    interface Factory {
         fun create(): ApplicationComponent
     }
 }

@@ -7,9 +7,17 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.makhmutov.internshipvkmarket.presentation.getApplicationComponent
 
 @Composable
 fun ProductsScreen() {
+
+    val component = getApplicationComponent()
+    val viewModel: ProductsViewModel = viewModel(
+        factory = component.getViewModelFactory()
+    )
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier.fillMaxSize(),

@@ -2,6 +2,7 @@ package com.makhmutov.internshipvkmarket.data.repository
 
 import com.makhmutov.internshipvkmarket.data.mapper.MarketMapper
 import com.makhmutov.internshipvkmarket.data.network.api.ProductsApiService
+import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
 import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemResult
 import com.makhmutov.internshipvkmarket.domain.respository.MarketRepository
 import kotlinx.coroutines.CoroutineScope
@@ -28,6 +29,8 @@ class MarketRepositoryImpl @Inject constructor(
 
     private var firstMarketItemsIsLoaded = false
 
+    private var lastMarketItems: List<MarketItemEntity> = listOf()
+
     override val marketItemsFlow: StateFlow<RequestMarketItemResult> = flow {
         requestMarketItems()
         requestMarketItemsFlow.collect {
@@ -36,6 +39,7 @@ class MarketRepositoryImpl @Inject constructor(
             }
             val marketItemsEntity =
                 mapper.mapResultMarketItemsContainerToMarketItemEntity(resultOfRequestMarketItems)
+            lastMarketItems = marketItemsEntity
             emit(
                 RequestMarketItemResult.Success(marketItemsEntity) as RequestMarketItemResult
             )
@@ -46,10 +50,10 @@ class MarketRepositoryImpl @Inject constructor(
             delay(DELAY_BEFORE_RETRY)
             true
         }
-        .catch { emit(RequestMarketItemResult.Error(it, firstMarketItemsIsLoaded)) }
+        .catch { emit(RequestMarketItemResult.Error(it, firstMarketItemsIsLoaded, lastMarketItems)) }
         .stateIn(
             scope = coroutineScope,
-            started = SharingStarted.Eagerly,
+            started = SharingStarted.Lazily,
             initialValue = RequestMarketItemResult.Initial
         )
 

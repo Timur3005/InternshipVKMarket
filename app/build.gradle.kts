@@ -52,6 +52,7 @@ android {
 
 dependencies {
     implementation ("com.google.dagger:dagger:2.48.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     kapt ("com.google.dagger:dagger-compiler:2.48.1")
 
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
