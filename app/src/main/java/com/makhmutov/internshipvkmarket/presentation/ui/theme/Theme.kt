@@ -1,4 +1,4 @@
-package com.makhmutov.internshipvkmarket.ui.theme
+package com.makhmutov.internshipvkmarket.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build

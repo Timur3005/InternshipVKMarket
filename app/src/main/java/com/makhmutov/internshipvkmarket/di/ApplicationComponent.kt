@@ -1,11 +1,12 @@
 package com.makhmutov.internshipvkmarket.di
 
-import com.makhmutov.internshipvkmarket.MainActivity
+import com.makhmutov.internshipvkmarket.presentation.MainActivity
 import dagger.Component
 
 @Component(
     modules = [
-        DataModule::class
+        DataModule::class,
+        ViewModelModule::class
     ]
 )
 interface ApplicationComponent {
