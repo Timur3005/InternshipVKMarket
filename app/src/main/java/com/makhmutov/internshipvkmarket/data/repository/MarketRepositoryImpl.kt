@@ -2,11 +2,14 @@ package com.makhmutov.internshipvkmarket.data.repository
 
 import com.makhmutov.internshipvkmarket.data.mapper.MarketMapper
 import com.makhmutov.internshipvkmarket.data.network.api.ProductsApiService
-import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemResult
+import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
+import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemListResult
+import com.makhmutov.internshipvkmarket.domain.entities.RequestOneMarketItemResult
 import com.makhmutov.internshipvkmarket.domain.respository.MarketRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -28,16 +31,27 @@ class MarketRepositoryImpl @Inject constructor(
 
     private var firstMarketItemsIsLoaded = false
 
-    override val marketItemsFlow: StateFlow<RequestMarketItemResult> = flow {
+    private val _lastMarketItems = mutableListOf<MarketItemEntity>()
+    private val lastMarketItems: List<MarketItemEntity>
+        get() = _lastMarketItems.toList()
+
+    private var skipForApi = 0
+
+    private val coldMarketItemsFlow = flow {
         requestMarketItems()
         requestMarketItemsFlow.collect {
             val resultOfRequestMarketItems = withContext(Dispatchers.IO) {
-                apiService.getMarketItems()
+                apiService.getMarketItems(skip = skipForApi)
             }
+            skipForApi += 20
             val marketItemsEntity =
                 mapper.mapResultMarketItemsContainerToMarketItemEntity(resultOfRequestMarketItems)
+            _lastMarketItems.addAll(marketItemsEntity)
             emit(
-                RequestMarketItemResult.Success(marketItemsEntity) as RequestMarketItemResult
+                RequestMarketItemListResult.Success(
+                    marketItems = lastMarketItems,
+                    isLast = marketItemsEntity.isEmpty()
+                ) as RequestMarketItemListResult
             )
             firstMarketItemsIsLoaded = true
         }
@@ -46,13 +60,32 @@ class MarketRepositoryImpl @Inject constructor(
             delay(DELAY_BEFORE_RETRY)
             true
         }
-        .catch { emit(RequestMarketItemResult.Error(it, firstMarketItemsIsLoaded)) }
+        .catch {
+            emit(
+                RequestMarketItemListResult.Error(
+                    it,
+                    firstMarketItemsIsLoaded,
+                    lastMarketItems
+                )
+            )
+        }
+
+    override val marketItemsFlow: StateFlow<RequestMarketItemListResult> = coldMarketItemsFlow
         .stateIn(
             scope = coroutineScope,
-            started = SharingStarted.Eagerly,
-            initialValue = RequestMarketItemResult.Initial
+            started = SharingStarted.Lazily,
+            initialValue = RequestMarketItemListResult.Success(listOf())
         )
 
+    override fun getOneMarketItemByIdFlow(id: Int): Flow<RequestOneMarketItemResult> = flow {
+        val marketItem = lastMarketItems[id]
+        emit(RequestOneMarketItemResult.Success(marketItem) as RequestOneMarketItemResult)
+    }
+        .retry(3L){
+            delay(DELAY_BEFORE_RETRY)
+            true
+        }
+        .catch { emit(RequestOneMarketItemResult.Error(it)) }
 
     override suspend fun requestMarketItems() {
         requestMarketItemsFlow.emit(Unit)

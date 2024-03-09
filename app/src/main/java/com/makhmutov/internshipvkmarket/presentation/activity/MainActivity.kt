@@ -1,4 +1,4 @@
-package com.makhmutov.internshipvkmarket
+package com.makhmutov.internshipvkmarket.presentation.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.makhmutov.internshipvkmarket.ui.theme.InternshipVKMarketTheme
+import com.makhmutov.internshipvkmarket.presentation.screens.main.MainScreen
+import com.makhmutov.internshipvkmarket.presentation.ui.theme.InternshipVKMarketTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-
+                    MainScreen()
                 }
             }
         }
