@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.makhmutov.internshipvkmarket.presentation.screens.main.MainScreen
-import com.makhmutov.internshipvkmarket.presentation.screens.products.ProductsScreen
 import com.makhmutov.internshipvkmarket.presentation.ui.theme.InternshipVKMarketTheme
 
 class MainActivity : ComponentActivity() {

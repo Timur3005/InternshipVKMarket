@@ -2,7 +2,6 @@ package com.makhmutov.internshipvkmarket.presentation.naviagtion
 
 import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
