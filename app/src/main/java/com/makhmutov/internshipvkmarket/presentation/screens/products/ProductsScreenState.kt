@@ -1,4 +1,4 @@
-package com.makhmutov.internshipvkmarket.presentation.products
+package com.makhmutov.internshipvkmarket.presentation.screens.products
 
 import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
 

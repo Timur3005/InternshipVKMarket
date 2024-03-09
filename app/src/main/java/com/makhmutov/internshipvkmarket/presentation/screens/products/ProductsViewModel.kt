@@ -1,4 +1,4 @@
-package com.makhmutov.internshipvkmarket.presentation.products
+package com.makhmutov.internshipvkmarket.presentation.screens.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

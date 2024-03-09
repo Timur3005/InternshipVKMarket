@@ -1,7 +1,7 @@
 package com.makhmutov.internshipvkmarket.di
 
 import androidx.lifecycle.ViewModel
-import com.makhmutov.internshipvkmarket.presentation.products.ProductsViewModel
+import com.makhmutov.internshipvkmarket.presentation.screens.products.ProductsViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap

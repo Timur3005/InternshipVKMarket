@@ -1,4 +1,4 @@
-package com.makhmutov.internshipvkmarket.presentation.products
+package com.makhmutov.internshipvkmarket.presentation.screens.products
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +34,9 @@ import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
 import com.makhmutov.internshipvkmarket.presentation.app.getApplicationComponent
 
 @Composable
-fun ProductsScreen() {
+fun ProductsScreen(
+    onProductClickListener: (MarketItemEntity) -> Unit
+) {
 
     val component = getApplicationComponent()
     val viewModel: ProductsViewModel = viewModel(
@@ -45,9 +47,7 @@ fun ProductsScreen() {
     Products(
         state = screenState,
         isNotDownLoadingListener = { viewModel.loadNextProducts() },
-        onProductClickListener = {
-
-        }
+        onProductClickListener = onProductClickListener
     )
 
 }
