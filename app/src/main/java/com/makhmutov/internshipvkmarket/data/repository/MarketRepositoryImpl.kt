@@ -6,7 +6,6 @@ import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
 import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemListResult
 import com.makhmutov.internshipvkmarket.domain.entities.RequestOneMarketItemResult
 import com.makhmutov.internshipvkmarket.domain.respository.MarketRepository
-import com.makhmutov.internshipvkmarket.presentation.screens.products.ProductsScreenState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

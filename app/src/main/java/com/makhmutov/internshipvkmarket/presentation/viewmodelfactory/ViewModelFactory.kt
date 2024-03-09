@@ -6,7 +6,6 @@ import com.makhmutov.internshipvkmarket.di.ApplicationScope
 import javax.inject.Inject
 import javax.inject.Provider
 
-@ApplicationScope
 class ViewModelFactory @Inject constructor(
     private val viewModelsProvider:
     @JvmSuppressWildcards Map<Class<out ViewModel>, Provider<ViewModel>>,

@@ -13,7 +13,7 @@ import dagger.Component
 )
 interface ApplicationComponent {
     fun inject(activity: MainActivity)
-
+    fun getOneProductComponentFactory(): OneProductComponent.Factory
     fun getViewModelFactory(): ViewModelFactory
 
     @Component.Factory
