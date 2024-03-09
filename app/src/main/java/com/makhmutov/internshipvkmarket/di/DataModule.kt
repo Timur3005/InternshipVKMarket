@@ -10,10 +10,12 @@ import dagger.Provides
 @Module
 interface DataModule {
 
+    @ApplicationScope
     @Binds
     fun bindRepository(impl: MarketRepositoryImpl): MarketRepository
 
     companion object{
+        @ApplicationScope
         @Provides
         fun provideApiService() = ProductsApiFactory.apiService
     }

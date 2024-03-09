@@ -8,7 +8,13 @@ sealed interface ProductsScreenState {
     data object Error : ProductsScreenState
     data class Products(
         val products: List<MarketItemEntity>,
-        val isDownloading: Boolean = false,
-        val isLoadingException: Boolean = false
+        val stateInLast: ProductsStateInLast = ProductsStateInLast.NOTHING,
+        val isLast: Boolean = false
     ) : ProductsScreenState
+}
+
+enum class ProductsStateInLast{
+    NOTHING,
+    LOADING,
+    ERROR
 }

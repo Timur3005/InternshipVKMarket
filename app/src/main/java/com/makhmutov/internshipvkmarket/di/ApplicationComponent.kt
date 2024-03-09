@@ -4,6 +4,7 @@ import com.makhmutov.internshipvkmarket.presentation.MainActivity
 import com.makhmutov.internshipvkmarket.presentation.viewmodelfactory.ViewModelFactory
 import dagger.Component
 
+@ApplicationScope
 @Component(
     modules = [
         DataModule::class,

@@ -29,19 +29,27 @@ class MarketRepositoryImpl @Inject constructor(
 
     private var firstMarketItemsIsLoaded = false
 
-    private var lastMarketItems: List<MarketItemEntity> = listOf()
+    private val _lastMarketItems = mutableListOf<MarketItemEntity>()
+    private val lastMarketItems: List<MarketItemEntity>
+        get() = _lastMarketItems.toList()
 
-    override val marketItemsFlow: StateFlow<RequestMarketItemResult> = flow {
+    private var skipForApi = 0
+
+    private val coldMarketItemsFlow = flow {
         requestMarketItems()
         requestMarketItemsFlow.collect {
             val resultOfRequestMarketItems = withContext(Dispatchers.IO) {
-                apiService.getMarketItems()
+                apiService.getMarketItems(skip = skipForApi)
             }
+            skipForApi += 20
             val marketItemsEntity =
                 mapper.mapResultMarketItemsContainerToMarketItemEntity(resultOfRequestMarketItems)
-            lastMarketItems = marketItemsEntity
+            _lastMarketItems.addAll(marketItemsEntity)
             emit(
-                RequestMarketItemResult.Success(marketItemsEntity) as RequestMarketItemResult
+                RequestMarketItemResult.Success(
+                    marketItems = lastMarketItems,
+                    isLast = marketItemsEntity.isEmpty()
+                ) as RequestMarketItemResult
             )
             firstMarketItemsIsLoaded = true
         }
@@ -50,11 +58,21 @@ class MarketRepositoryImpl @Inject constructor(
             delay(DELAY_BEFORE_RETRY)
             true
         }
-        .catch { emit(RequestMarketItemResult.Error(it, firstMarketItemsIsLoaded, lastMarketItems)) }
+        .catch {
+            emit(
+                RequestMarketItemResult.Error(
+                    it,
+                    firstMarketItemsIsLoaded,
+                    lastMarketItems
+                )
+            )
+        }
+
+    override val marketItemsFlow: StateFlow<RequestMarketItemResult> = coldMarketItemsFlow
         .stateIn(
             scope = coroutineScope,
             started = SharingStarted.Lazily,
-            initialValue = RequestMarketItemResult.Initial
+            initialValue = RequestMarketItemResult.Success(listOf())
         )
 
 
