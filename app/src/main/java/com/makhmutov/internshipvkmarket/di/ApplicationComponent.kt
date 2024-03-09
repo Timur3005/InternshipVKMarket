@@ -1,6 +1,6 @@
 package com.makhmutov.internshipvkmarket.di
 
-import com.makhmutov.internshipvkmarket.presentation.MainActivity
+import com.makhmutov.internshipvkmarket.presentation.activity.MainActivity
 import com.makhmutov.internshipvkmarket.presentation.viewmodelfactory.ViewModelFactory
 import dagger.Component
 

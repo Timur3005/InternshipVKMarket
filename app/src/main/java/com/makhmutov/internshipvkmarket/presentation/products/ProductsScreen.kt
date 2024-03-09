@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
-import com.makhmutov.internshipvkmarket.presentation.getApplicationComponent
+import com.makhmutov.internshipvkmarket.presentation.app.getApplicationComponent
 
 @Composable
 fun ProductsScreen() {

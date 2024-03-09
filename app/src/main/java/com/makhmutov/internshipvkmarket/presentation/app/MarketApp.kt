@@ -1,4 +1,4 @@
-package com.makhmutov.internshipvkmarket.presentation
+package com.makhmutov.internshipvkmarket.presentation.app
 
 import android.app.Application
 import androidx.compose.runtime.Composable

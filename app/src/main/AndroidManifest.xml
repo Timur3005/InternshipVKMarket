@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".presentation.MarketApp"
+        android:name=".presentation.app.MarketApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,7 +16,7 @@
         android:theme="@style/Theme.InternshipVKMarket"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.activity.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.InternshipVKMarket">

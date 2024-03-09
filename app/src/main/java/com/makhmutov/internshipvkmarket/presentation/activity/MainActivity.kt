@@ -1,4 +1,4 @@
-package com.makhmutov.internshipvkmarket.presentation
+package com.makhmutov.internshipvkmarket.presentation.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
