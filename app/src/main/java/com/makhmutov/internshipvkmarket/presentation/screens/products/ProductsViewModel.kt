@@ -2,7 +2,7 @@ package com.makhmutov.internshipvkmarket.presentation.screens.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemResult
+import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemListResult
 import com.makhmutov.internshipvkmarket.domain.usecases.GetMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.RequestMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.extentions.mergeWith
@@ -23,11 +23,11 @@ class ProductsViewModel @Inject constructor(
     private val marketItemsFlow = getMarketItemsUseCase()
     val productsFlow = marketItemsFlow
         .filter {
-            !(it is RequestMarketItemResult.Success && it.marketItems.isEmpty())
+            !(it is RequestMarketItemListResult.Success && it.marketItems.isEmpty())
         }
         .map {
             when (it) {
-                is RequestMarketItemResult.Error -> {
+                is RequestMarketItemListResult.Error -> {
                     if (it.firstMarketItemsIsLoaded) {
                         ProductsScreenState.Products(
                             products = it.lastMarketItems,
@@ -38,7 +38,7 @@ class ProductsViewModel @Inject constructor(
                     }
                 }
 
-                is RequestMarketItemResult.Success -> {
+                is RequestMarketItemListResult.Success -> {
                     ProductsScreenState.Products(
                         products = it.marketItems,
                         isLast = it.isLast
@@ -52,7 +52,7 @@ class ProductsViewModel @Inject constructor(
     fun loadNextProducts() {
         viewModelScope.launch {
             val marketItems =
-                (marketItemsFlow.value as RequestMarketItemResult.Success).marketItems
+                (marketItemsFlow.value as RequestMarketItemListResult.Success).marketItems
             loadingProductsState.emit(
                 ProductsScreenState.Products(
                     products = marketItems,
