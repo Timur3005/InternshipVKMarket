@@ -25,11 +25,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.makhmutov.internshipvkmarket.R
 import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
 import com.makhmutov.internshipvkmarket.presentation.app.getApplicationComponent
 
@@ -62,8 +63,14 @@ private fun Products(
     when (val realState = state.value) {
 
         ProductsScreenState.Error -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "Error")
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stringResource(R.string.error),
+                    style = MaterialTheme.typography.titleLarge
+                )
             }
         }
 
@@ -74,7 +81,7 @@ private fun Products(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
             }
         }
 
@@ -90,10 +97,17 @@ private fun Products(
                 ),
                 state = lazyListState
             ) {
+                item {
+                    Text(
+                        modifier = Modifier.padding(start = 8.dp),
+                        text = stringResource(R.string.products),
+                        style = MaterialTheme.typography.headlineLarge
+                    )
+                }
                 items(items = realState.products, key = { it.id }) {
                     ProductCard(
                         modifier = Modifier
-                            .padding(top = 4.dp, bottom = 4.dp)
+                            .padding(8.dp)
                             .fillMaxWidth(),
                         product = it,
                         onProductClickListener = {
@@ -130,7 +144,10 @@ private fun LastElement(
                         .padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "There are no more products")
+                    Text(
+                        text = stringResource(R.string.no_more_products),
+                        style = MaterialTheme.typography.titleLarge
+                    )
                 }
             }
         }
@@ -143,7 +160,7 @@ private fun LastElement(
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator(color = Color.DarkGray)
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
             }
         }
 
@@ -155,7 +172,10 @@ private fun LastElement(
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "Error")
+                Text(
+                    text = stringResource(R.string.error),
+                    style = MaterialTheme.typography.titleLarge
+                )
             }
         }
     }
@@ -170,11 +190,11 @@ private fun ProductCard(
 ) {
     Card(
         modifier = modifier,
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(4.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.surface,
+            contentColor = MaterialTheme.colorScheme.onSurface
         ),
         onClick = {
             onProductClickListener()
@@ -183,17 +203,16 @@ private fun ProductCard(
         Column(
             modifier = Modifier.padding(8.dp)
         ) {
+            Text(text = product.title, style = MaterialTheme.typography.titleLarge)
+            Spacer(modifier = Modifier.height(8.dp))
             AsyncImage(
                 model = product.thumbnail,
                 contentDescription = null,
-                modifier = Modifier
-                    .clip(RoundedCornerShape(4.dp))
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                contentScale = ContentScale.FillWidth
             )
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = product.title)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = product.description)
+            Text(text = product.description, style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

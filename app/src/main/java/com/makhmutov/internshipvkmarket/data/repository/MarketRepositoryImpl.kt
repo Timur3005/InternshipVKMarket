@@ -78,7 +78,7 @@ class MarketRepositoryImpl @Inject constructor(
         )
 
     override fun getOneMarketItemByIdFlow(id: Int): Flow<RequestOneMarketItemResult> = flow {
-        val marketItem = lastMarketItems[id]
+        val marketItem = lastMarketItems[id-1]
         emit(RequestOneMarketItemResult.Success(marketItem) as RequestOneMarketItemResult)
     }
         .retry(3L){
