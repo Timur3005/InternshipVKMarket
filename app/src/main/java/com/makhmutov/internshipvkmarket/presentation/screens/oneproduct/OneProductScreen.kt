@@ -132,20 +132,20 @@ private fun Product(productState: OneProductScreenState.Product) {
             ProductCharacteristic(
                 modifier = Modifier
                     .width(125.dp),
-                characteristicName = "Price",
+                characteristicName = stringResource(R.string.price),
                 characteristic = "${productState.product.price}$"
             )
             ProductCharacteristic(
                 modifier = Modifier
                     .width(125.dp),
-                characteristicName = "Discount",
+                characteristicName = stringResource(R.string.discount),
                 characteristic = "${productState.product.discountPercentage}%"
             )
             ProductCharacteristic(
                 modifier = Modifier
                     .width(125.dp),
-                characteristicName = "Rating",
-                characteristic = "${productState.product.rating} out of 5"
+                characteristicName = stringResource(R.string.rating),
+                characteristic = stringResource(R.string.out_of_5, productState.product.rating)
             )
         }
 
@@ -153,7 +153,7 @@ private fun Product(productState: OneProductScreenState.Product) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp),
-            characteristicName = "Description",
+            characteristicName = stringResource(R.string.description),
             characteristic = productState.product.description
         )
 
@@ -161,7 +161,7 @@ private fun Product(productState: OneProductScreenState.Product) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp),
-            characteristicName = "Brand",
+            characteristicName = stringResource(R.string.brand),
             characteristic = productState.product.brand
         )
 
@@ -169,7 +169,7 @@ private fun Product(productState: OneProductScreenState.Product) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp),
-            characteristicName = "Category",
+            characteristicName = stringResource(R.string.category),
             characteristic = productState.product.category
         )
 
@@ -177,8 +177,8 @@ private fun Product(productState: OneProductScreenState.Product) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp),
-            characteristicName = "Stock",
-            characteristic = "${productState.product.stock} products"
+            characteristicName = stringResource(R.string.stock),
+            characteristic = stringResource(R.string.products_count, productState.product.stock)
         )
 
 

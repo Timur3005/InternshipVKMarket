@@ -3,4 +3,13 @@
     <string name="error">Error</string>
     <string name="no_more_products">There are no more products</string>
     <string name="products">Products</string>
+    <string name="price">Price</string>
+    <string name="discount">Discount</string>
+    <string name="rating">Rating</string>
+    <string name="out_of_5">%1$s out of 5</string>
+    <string name="description">Description</string>
+    <string name="brand">Brand</string>
+    <string name="category">Category</string>
+    <string name="stock">Stock</string>
+    <string name="products_count">%1$s products</string>
 </resources>
