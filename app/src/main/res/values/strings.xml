@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Internship VK Market</string>
+    <string name="error">Error</string>
+    <string name="no_more_products">There are no more products</string>
+    <string name="products">Products</string>
 </resources>

@@ -26,7 +26,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun ClientNewsVKTheme(
+fun InternshipVKMarketTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit,

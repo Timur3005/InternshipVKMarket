@@ -1,5 +1,8 @@
 package com.makhmutov.internshipvkmarket.presentation.screens.oneproduct
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.rememberScrollableState
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -16,9 +20,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.makhmutov.internshipvkmarket.R
 import com.makhmutov.internshipvkmarket.presentation.app.getApplicationComponent
 
 @Composable
@@ -48,7 +54,10 @@ private fun OneProduct(state: State<OneProductScreenState>) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center) {
-                Text(text = "Error")
+                Text(
+                    text = stringResource(R.string.error),
+                    style = MaterialTheme.typography.titleLarge
+                )
             }
         }
 
@@ -59,7 +68,7 @@ private fun OneProduct(state: State<OneProductScreenState>) {
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgressIndicator()
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
             }
         }
 
@@ -74,10 +83,15 @@ private fun Product(productState: OneProductScreenState.Product) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp),
+            .padding(8.dp)
+            .scrollable(
+                state = rememberScrollableState{ 0.4f },
+                orientation = Orientation.Vertical
+            )
+        ,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = productState.product.title)
+        Text(text = productState.product.title, style = MaterialTheme.typography.headlineLarge)
         Spacer(modifier = Modifier.height(8.dp))
         AsyncImage(
             model = productState.product.thumbnail,
