@@ -45,7 +45,9 @@ private fun OneProduct(state: State<OneProductScreenState>) {
     when (val realState = state.value) {
 
         OneProductScreenState.Error -> {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center) {
                 Text(text = "Error")
             }
         }
