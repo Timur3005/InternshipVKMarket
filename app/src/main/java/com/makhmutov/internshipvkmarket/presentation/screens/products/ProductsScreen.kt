@@ -37,7 +37,6 @@ import coil.compose.SubcomposeAsyncImage
 import com.makhmutov.internshipvkmarket.R
 import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
 import com.makhmutov.internshipvkmarket.presentation.app.getApplicationComponent
-import java.nio.file.WatchEvent
 
 @Composable
 fun ProductsScreen(
