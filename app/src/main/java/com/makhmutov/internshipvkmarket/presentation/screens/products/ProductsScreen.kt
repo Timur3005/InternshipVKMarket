@@ -29,7 +29,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.makhmutov.internshipvkmarket.R
 import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
 import com.makhmutov.internshipvkmarket.presentation.app.getApplicationComponent
@@ -205,11 +205,32 @@ private fun ProductCard(
         ) {
             Text(text = product.title, style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(8.dp))
-            AsyncImage(
+            SubcomposeAsyncImage(
                 model = product.thumbnail,
                 contentDescription = null,
-                modifier = Modifier.fillMaxWidth(),
-                contentScale = ContentScale.FillWidth
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentScale = ContentScale.FillWidth,
+                loading = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    }
+                },
+                error = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                    }
+                }
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(text = product.description, style = MaterialTheme.typography.bodyMedium)
