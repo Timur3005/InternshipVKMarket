@@ -93,9 +93,9 @@ private fun Product(productState: OneProductScreenState.Product) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp)
+            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 20.dp)
             .verticalScroll(state = rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
         Text(text = productState.product.title, style = MaterialTheme.typography.headlineLarge)
         Spacer(modifier = Modifier.height(12.dp))
