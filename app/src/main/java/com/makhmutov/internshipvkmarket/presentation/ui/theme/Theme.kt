@@ -28,7 +28,6 @@ private val LightColorScheme = lightColorScheme(
 @Composable
 fun InternshipVKMarketTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     val colorScheme = if (darkTheme) {

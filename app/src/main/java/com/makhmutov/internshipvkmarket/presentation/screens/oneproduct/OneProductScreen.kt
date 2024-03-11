@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,7 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import com.makhmutov.internshipvkmarket.R
 import com.makhmutov.internshipvkmarket.presentation.app.getApplicationComponent
 
@@ -52,6 +51,7 @@ fun OneProductScreen(
     val screenState = viewModel.productFlow.collectAsState(initial = OneProductScreenState.Initial)
 
     OneProduct(screenState)
+
 }
 
 @Composable
@@ -104,21 +104,47 @@ private fun Product(productState: OneProductScreenState.Product) {
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surface)
                 .clip(RoundedCornerShape(4.dp))
-                .padding(8.dp)
                 .fillMaxWidth(),
             state = rememberPagerState(
                 pageCount = { productState.product.images.size }
             ),
-            contentPadding = PaddingValues(8.dp),
             pageSpacing = 10.dp
         ) {
-            AsyncImage(
-                model = productState.product.images[it],
-                contentDescription = null,
+            Card(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(250.dp)
-            )
+                    .fillMaxSize(),
+                elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+                shape = RoundedCornerShape(4.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface
+                )
+            ) {
+                SubcomposeAsyncImage(
+                    model = productState.product.images[it],
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                        .height(200.dp),
+                    loading = {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                        }
+                    },
+                    error = {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+                        }
+                    }
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(10.dp))
