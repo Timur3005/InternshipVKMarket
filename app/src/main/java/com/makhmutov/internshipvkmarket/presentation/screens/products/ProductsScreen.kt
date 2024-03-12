@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -89,11 +88,6 @@ fun ProductsScreen(
                                 lazyListState.animateScrollToItem(index = 0)
                             }
                         },
-                        onTopAppBarClickListener = {
-                            scope.launch {
-                                lazyListState.animateScrollToItem(index = 0)
-                            }
-                        },
                         onSearchIconClickListener = {
 
                         },
@@ -126,7 +120,6 @@ fun ProductsScreen(
 private fun TopAppBarTitle(
     categories: State<List<String>>,
     onDropdownMenuItemClickListener: (String) -> Unit,
-    onTopAppBarClickListener: () -> Unit,
     onSearchIconClickListener: () -> Unit,
     onSearch: (String) -> Unit
 ) {
@@ -134,7 +127,9 @@ private fun TopAppBarTitle(
         mutableStateOf(false)
     }
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start
     ) {
