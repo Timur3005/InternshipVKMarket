@@ -12,5 +12,6 @@ interface MarketRepository {
     suspend fun requestMarketItems()
     suspend fun requestByCategoryMarketItems(category: String)
     fun getCategories(): StateFlow<List<String>>
+    suspend fun searchMarketItems(request: String)
 
 }

@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -27,6 +28,41 @@ class MarketRepositoryImpl @Inject constructor(
 ) : MarketRepository {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
+
+    private val searchRequestFlow = MutableSharedFlow<String>(replay = 1)
+    override suspend fun searchMarketItems(request: String) {
+        searchRequestFlow.emit(request)
+    }
+
+    private val searchMarketItemsFlow = flow {
+        searchRequestFlow.collect {
+            val response = withContext(Dispatchers.IO){
+                mapper.mapResultMarketItemsContainerToMarketItemEntity(
+                    apiService.searchMarketItems(it)
+                )
+            }
+            emit(
+                RequestMarketItemListResult.Success(
+                    marketItems = response,
+                    isLast = true
+                ) as RequestMarketItemListResult
+            )
+        }
+    }
+        .retry(retries = 3L) {
+            delay(DELAY_BEFORE_RETRY)
+            true
+        }
+        .catch {
+            emit(
+                RequestMarketItemListResult.Error(
+                    it,
+                    false,
+                )
+            )
+        }
+
+
 
     private var lastByCategoryMarketItems: List<MarketItemEntity> = listOf()
 
@@ -109,6 +145,7 @@ class MarketRepositoryImpl @Inject constructor(
             )
         }
         .mergeWith(marketItemsByCategoryFlow)
+        .mergeWith(searchMarketItemsFlow)
 
     override val marketItemsFlow: StateFlow<RequestMarketItemListResult> = coldMarketItemsFlow
         .stateIn(
