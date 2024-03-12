@@ -21,7 +21,13 @@ interface ProductsApiService {
         @Path("category") category: String,
     ): RequestMarketItemsContainer
 
+    @GET(SEARCH_MARKET_ITEMS)
+    suspend fun searchMarketItems(
+        @Query("q") request: String
+    ): RequestMarketItemsContainer
+
     private companion object {
+        const val SEARCH_MARKET_ITEMS = "/products/search"
         const val MARKET_ITEMS_REQUEST = "/products"
         const val CATEGORIES_REQUEST = "/products/categories"
         const val MARKET_ITEMS_BY_CATEGORY_REQUEST = "/products/category/"

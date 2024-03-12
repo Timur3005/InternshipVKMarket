@@ -1,16 +1,19 @@
 package com.makhmutov.internshipvkmarket.presentation.screens.products
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemListResult
 import com.makhmutov.internshipvkmarket.domain.usecases.GetCategoriesUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.GetMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.RequestByCategoryMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.RequestMarketItemsUseCase
+import com.makhmutov.internshipvkmarket.domain.usecases.SearchMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.extentions.mergeWith
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProductsViewModel @Inject constructor(
@@ -18,6 +21,7 @@ class ProductsViewModel @Inject constructor(
     getCategoriesUseCase: GetCategoriesUseCase,
     private val requestMarketItemsUseCase: RequestMarketItemsUseCase,
     private val requestByCategoryMarketItemsUseCase: RequestByCategoryMarketItemsUseCase,
+    private val searchMarketItemsUseCase: SearchMarketItemsUseCase,
 ) : ViewModel() {
 
     private val loadingProductsState = MutableSharedFlow<ProductsScreenState>()
@@ -77,6 +81,13 @@ class ProductsViewModel @Inject constructor(
             requestByCategoryMarketItemsUseCase(category)
         }
 
+    }
+
+    fun searchMarketItems(request: String) {
+        viewModelScope.launch {
+            loadingProductsState.emit(ProductsScreenState.Loading)
+            searchMarketItemsUseCase(request)
+        }
     }
 
     val categories = getCategoriesUseCase()

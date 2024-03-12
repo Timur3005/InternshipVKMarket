@@ -28,6 +28,44 @@ class MarketRepositoryImpl @Inject constructor(
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
+    private val searchRequestFlow = MutableSharedFlow<String>(replay = 1)
+    override suspend fun searchMarketItems(request: String) {
+        searchRequestFlow.emit(request)
+    }
+
+    private var searchingList = listOf<MarketItemEntity>()
+
+    private val searchMarketItemsFlow = flow {
+        searchRequestFlow.collect {
+            val response = withContext(Dispatchers.IO){
+                mapper.mapResultMarketItemsContainerToMarketItemEntity(
+                    apiService.searchMarketItems(it)
+                )
+            }
+            searchingList = response
+            emit(
+                RequestMarketItemListResult.Success(
+                    marketItems = searchingList.toList(),
+                    isLast = true
+                ) as RequestMarketItemListResult
+            )
+        }
+    }
+        .retry(retries = 3L) {
+            delay(DELAY_BEFORE_RETRY)
+            true
+        }
+        .catch {
+            emit(
+                RequestMarketItemListResult.Error(
+                    it,
+                    false,
+                )
+            )
+        }
+
+
+
     private var lastByCategoryMarketItems: List<MarketItemEntity> = listOf()
 
     private val marketItemsByCategoryFlow = flow {
@@ -55,8 +93,7 @@ class MarketRepositoryImpl @Inject constructor(
             emit(
                 RequestMarketItemListResult.Error(
                     it,
-                    true,
-                    lastByCategoryMarketItems
+                    false,
                 )
             )
         }
@@ -110,6 +147,7 @@ class MarketRepositoryImpl @Inject constructor(
             )
         }
         .mergeWith(marketItemsByCategoryFlow)
+        .mergeWith(searchMarketItemsFlow)
 
     override val marketItemsFlow: StateFlow<RequestMarketItemListResult> = coldMarketItemsFlow
         .stateIn(
@@ -122,6 +160,7 @@ class MarketRepositoryImpl @Inject constructor(
     override fun getOneMarketItemByIdFlow(id: Int): Flow<RequestOneMarketItemResult> = flow {
         val marketItem =
             lastByCategoryMarketItems.find { it.id == id } ?:
+            searchingList.find { it.id == id } ?:
             lastMarketItems.find { it.id == id } ?:
             throw RuntimeException("market item isn't exist")
         emit(RequestOneMarketItemResult.Success(marketItem) as RequestOneMarketItemResult)
