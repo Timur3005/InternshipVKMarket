@@ -1,6 +1,5 @@
 package com.makhmutov.internshipvkmarket.presentation.screens.products
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -31,6 +31,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -95,6 +96,9 @@ fun ProductsScreen(
                         },
                         onSearchIconClickListener = {
 
+                        },
+                        onSearch = {
+
                         }
                     )
                 }
@@ -117,37 +121,60 @@ fun ProductsScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TopAppBarTitle(
     categories: State<List<String>>,
     onDropdownMenuItemClickListener: (String) -> Unit,
     onTopAppBarClickListener: () -> Unit,
-    onSearchIconClickListener: () -> Unit
+    onSearchIconClickListener: () -> Unit,
+    onSearch: (String) -> Unit
 ) {
     val dropdownMenuExpanded = rememberSaveable {
         mutableStateOf(false)
     }
     Row(
         modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
     ) {
-        Row(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .clickable {
-                    onTopAppBarClickListener()
-                },
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Text(
-                text = stringResource(R.string.products),
-                style = MaterialTheme.typography.headlineLarge
-            )
+        val queryState = rememberSaveable {
+            mutableStateOf("")
         }
         Row(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth(),
+                .height(50.dp)
+            ,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            SearchBar(
+                modifier = Modifier
+                    .fillMaxWidth()
+                ,
+                query = queryState.value,
+                onQueryChange = {
+                    queryState.value = it
+                },
+                onSearch = {
+                    onSearch(it)
+                },
+                active = false,
+                onActiveChange = {},
+                shape = RoundedCornerShape(4.dp),
+                tonalElevation = 2.dp,
+                placeholder = {
+                    Text(
+                        text = "Search product...",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            ) {
+
+            }
+        }
+        Row(
+            modifier = Modifier,
             horizontalArrangement = Arrangement.End
         ) {
             IconButton(
@@ -243,8 +270,10 @@ private fun SuccessfullyProducts(
 ) {
     LazyColumn(
         modifier = Modifier
+            .padding(paddingValues)
+            .padding(start = 8.dp, end = 8.dp)
             .fillMaxSize()
-            .padding(paddingValues),
+        ,
         contentPadding = PaddingValues(
             top = 20.dp,
             bottom = 20.dp,

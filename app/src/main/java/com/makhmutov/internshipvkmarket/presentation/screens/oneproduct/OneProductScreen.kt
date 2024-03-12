@@ -92,7 +92,7 @@ private fun Product(productState: OneProductScreenState.Product) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp, top = 20.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 8.dp, top = 20.dp)
             .verticalScroll(state = rememberScrollState()),
         horizontalAlignment = Alignment.Start
     ) {
