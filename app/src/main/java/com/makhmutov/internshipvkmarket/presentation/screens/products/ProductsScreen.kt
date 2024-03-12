@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -91,6 +92,9 @@ fun ProductsScreen(
                             scope.launch {
                                 lazyListState.animateScrollToItem(index = 0)
                             }
+                        },
+                        onSearchIconClickListener = {
+
                         }
                     )
                 }
@@ -118,6 +122,7 @@ private fun TopAppBarTitle(
     categories: State<List<String>>,
     onDropdownMenuItemClickListener: (String) -> Unit,
     onTopAppBarClickListener: () -> Unit,
+    onSearchIconClickListener: () -> Unit
 ) {
     val dropdownMenuExpanded = rememberSaveable {
         mutableStateOf(false)
@@ -145,6 +150,17 @@ private fun TopAppBarTitle(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
+            IconButton(
+                onClick = {
+                    onSearchIconClickListener()
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            }
             Box {
                 IconButton(
                     onClick = {
