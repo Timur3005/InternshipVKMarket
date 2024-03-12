@@ -66,7 +66,10 @@ fun ProductsScreen(
         state = screenState,
         isNotDownLoadingListener = { viewModel.loadNextProducts() },
         onProductClickListener = onProductClickListener,
-        categories = categories
+        categories = categories,
+        onDropdownMenuItemClickListener = {
+            viewModel.loadNextProducts(it)
+        }
     )
 
 }
@@ -77,6 +80,7 @@ private fun Products(
     state: State<ProductsScreenState>,
     isNotDownLoadingListener: () -> Unit,
     onProductClickListener: (MarketItemEntity) -> Unit,
+    onDropdownMenuItemClickListener: (String) -> Unit
 ) {
 
     when (val realState = state.value) {
@@ -113,7 +117,7 @@ private fun Products(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(
                     top = 20.dp,
-                    bottom = 16.dp,
+                    bottom = 40.dp,
                     start = 8.dp,
                     end = 8.dp
                 ),
@@ -158,7 +162,7 @@ private fun Products(
                                     state = dropdownMenuExpanded,
                                     list = categories.value,
                                     onItemClickListener = {
-
+                                        onDropdownMenuItemClickListener(it)
                                     }
                                 )
                             }
@@ -193,7 +197,7 @@ private fun DropDownFilter(
     onItemClickListener: (String) -> Unit,
 ) {
     var selectedItem by rememberSaveable {
-        mutableStateOf<String?>(null)
+        mutableStateOf("all")
     }
     DropdownMenu(
         expanded = state.value,

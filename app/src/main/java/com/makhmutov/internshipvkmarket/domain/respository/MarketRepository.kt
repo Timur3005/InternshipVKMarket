@@ -10,6 +10,7 @@ interface MarketRepository {
     val marketItemsFlow: StateFlow<RequestMarketItemListResult>
     fun getOneMarketItemByIdFlow(id: Int): Flow<RequestOneMarketItemResult>
     suspend fun requestMarketItems()
-    fun getCategories(): Flow<List<String>>
+    suspend fun requestByCategoryMarketItems(category: String)
+    fun getCategories(): StateFlow<List<String>>
 
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemListResult
 import com.makhmutov.internshipvkmarket.domain.usecases.GetCategoriesUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.GetMarketItemsUseCase
+import com.makhmutov.internshipvkmarket.domain.usecases.RequestByCategoryMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.RequestMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.extentions.mergeWith
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,9 +19,11 @@ class ProductsViewModel @Inject constructor(
     getMarketItemsUseCase: GetMarketItemsUseCase,
     getCategoriesUseCase: GetCategoriesUseCase,
     private val requestMarketItemsUseCase: RequestMarketItemsUseCase,
+    private val requestByCategoryMarketItemsUseCase: RequestByCategoryMarketItemsUseCase,
 ) : ViewModel() {
 
     private val loadingProductsState = MutableSharedFlow<ProductsScreenState>()
+    private val loadingCategory = MutableSharedFlow<ProductsScreenState>()
 
     private val marketItemsFlow = getMarketItemsUseCase()
     val productsFlow = marketItemsFlow
@@ -49,23 +52,31 @@ class ProductsViewModel @Inject constructor(
             }
         }
         .mergeWith(loadingProductsState)
+        .mergeWith(loadingCategory)
         .onStart { emit(ProductsScreenState.Loading) }
 
-    fun loadNextProducts() {
+    fun loadNextProducts(category: String = EMPTY_CATEGORY) {
         viewModelScope.launch {
-            val marketItems =
-                (marketItemsFlow.value as RequestMarketItemListResult.Success).marketItems
-            loadingProductsState.emit(
-                ProductsScreenState.Products(
-                    products = marketItems,
-                    stateInLast = ProductsStateInLast.LOADING
+            if (category.isEmpty()) {
+                val marketItems =
+                    (marketItemsFlow.value as RequestMarketItemListResult.Success).marketItems
+                loadingProductsState.emit(
+                    ProductsScreenState.Products(
+                        products = marketItems,
+                        stateInLast = ProductsStateInLast.LOADING
+                    )
                 )
-            )
-            requestMarketItemsUseCase()
+                requestMarketItemsUseCase()
+            } else {
+                loadingCategory.emit(ProductsScreenState.Loading)
+                requestByCategoryMarketItemsUseCase(category)
+            }
         }
     }
 
     val categories = getCategoriesUseCase()
 
-
+    companion object {
+        private const val EMPTY_CATEGORY = ""
+    }
 }
