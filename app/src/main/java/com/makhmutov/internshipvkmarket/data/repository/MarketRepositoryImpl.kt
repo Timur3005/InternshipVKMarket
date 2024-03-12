@@ -6,6 +6,7 @@ import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
 import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemListResult
 import com.makhmutov.internshipvkmarket.domain.entities.RequestOneMarketItemResult
 import com.makhmutov.internshipvkmarket.domain.respository.MarketRepository
+import com.makhmutov.internshipvkmarket.extentions.mergeWith
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -26,6 +27,45 @@ class MarketRepositoryImpl @Inject constructor(
 ) : MarketRepository {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
+
+    private var lastByCategoryMarketItems: List<MarketItemEntity> = listOf()
+
+    private val marketItemsByCategoryFlow = flow {
+        requestByCategoryFlow.collect {
+            val resultOfRequestMarketItems = withContext(Dispatchers.IO) {
+                apiService.getMarketItemsByCategory(category = it)
+            }
+            val marketItemsEntity =
+                mapper
+                    .mapResultMarketItemsContainerToMarketItemEntity(resultOfRequestMarketItems)
+            lastByCategoryMarketItems = marketItemsEntity
+            emit(
+                RequestMarketItemListResult.Success(
+                    marketItems = lastByCategoryMarketItems,
+                    isLast = true
+                ) as RequestMarketItemListResult
+            )
+        }
+    }
+        .retry(retries = 3L) {
+            delay(DELAY_BEFORE_RETRY)
+            true
+        }
+        .catch {
+            emit(
+                RequestMarketItemListResult.Error(
+                    it,
+                    true,
+                    lastByCategoryMarketItems
+                )
+            )
+        }
+
+
+    private val requestByCategoryFlow = MutableSharedFlow<String>(replay = 1)
+    override suspend fun requestByCategoryMarketItems(category: String) {
+        requestByCategoryFlow.emit(category)
+    }
 
     private val requestMarketItemsFlow = MutableSharedFlow<Unit>(replay = 1)
 
@@ -69,6 +109,7 @@ class MarketRepositoryImpl @Inject constructor(
                 )
             )
         }
+        .mergeWith(marketItemsByCategoryFlow)
 
     override val marketItemsFlow: StateFlow<RequestMarketItemListResult> = coldMarketItemsFlow
         .stateIn(
@@ -77,11 +118,15 @@ class MarketRepositoryImpl @Inject constructor(
             initialValue = RequestMarketItemListResult.Success(listOf())
         )
 
+
     override fun getOneMarketItemByIdFlow(id: Int): Flow<RequestOneMarketItemResult> = flow {
-        val marketItem = lastMarketItems[id-1]
+        val marketItem =
+            lastByCategoryMarketItems.find { it.id == id } ?:
+            lastMarketItems.find { it.id == id } ?:
+            throw RuntimeException("market item isn't exist")
         emit(RequestOneMarketItemResult.Success(marketItem) as RequestOneMarketItemResult)
     }
-        .retry(3L){
+        .retry(3L) {
             delay(DELAY_BEFORE_RETRY)
             true
         }
@@ -90,6 +135,22 @@ class MarketRepositoryImpl @Inject constructor(
     override suspend fun requestMarketItems() {
         requestMarketItemsFlow.emit(Unit)
     }
+
+    override fun getCategories(): StateFlow<List<String>> = flow {
+        val categories = mutableListOf("all")
+        categories.addAll(
+            withContext(Dispatchers.IO) {
+                apiService.getCategories()
+            }
+        )
+        emit(categories.toList())
+    }
+        .retry()
+        .stateIn(
+            started = SharingStarted.Eagerly,
+            initialValue = listOf(),
+            scope = coroutineScope
+        )
 
     private companion object {
         const val DELAY_BEFORE_RETRY = 2000L
