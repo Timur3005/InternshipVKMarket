@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
@@ -157,19 +158,28 @@ private fun Product(productState: OneProductScreenState.Product) {
         ) {
             ProductCharacteristic(
                 modifier = Modifier
-                    .width(125.dp),
+                    .padding(end = 4.dp)
+                    .fillMaxWidth()
+                    .weight(0.30f)
+                ,
                 characteristicName = stringResource(R.string.price),
                 characteristic = "${productState.product.price}$"
             )
             ProductCharacteristic(
                 modifier = Modifier
-                    .width(125.dp),
+                    .padding(start = 4.dp, end = 4.dp)
+                    .fillMaxWidth()
+                    .weight(0.4f)
+                ,
                 characteristicName = stringResource(R.string.discount),
                 characteristic = "${productState.product.discountPercentage}%"
             )
             ProductCharacteristic(
                 modifier = Modifier
-                    .width(125.dp),
+                    .padding(start = 4.dp)
+                    .fillMaxWidth()
+                    .weight(0.4f)
+                ,
                 characteristicName = stringResource(R.string.rating),
                 characteristic = stringResource(R.string.out_of_5, productState.product.rating)
             )
