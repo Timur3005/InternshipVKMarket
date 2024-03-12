@@ -1,7 +1,6 @@
 package com.makhmutov.internshipvkmarket.presentation.screens.products
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemListResult
 import com.makhmutov.internshipvkmarket.domain.usecases.GetCategoriesUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.GetMarketItemsUseCase
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class ProductsViewModel @Inject constructor(
@@ -83,11 +81,9 @@ class ProductsViewModel @Inject constructor(
 
     }
 
-    fun searchMarketItems(request: String) {
-        viewModelScope.launch {
-            loadingProductsState.emit(ProductsScreenState.Loading)
-            searchMarketItemsUseCase(request)
-        }
+    suspend fun searchMarketItems(request: String) {
+        loadingProductsState.emit(ProductsScreenState.Loading)
+        searchMarketItemsUseCase(request)
     }
 
     val categories = getCategoriesUseCase()

@@ -88,7 +88,11 @@ fun ProductsScreen(
                             }
                         },
                         onSearch = {
-                            viewModel.searchMarketItems(it)
+                            scope.launch {
+                                viewModel.searchMarketItems(it)
+                                delay(500)
+                                lazyListState.animateScrollToItem(index = 0)
+                            }
                         }
                     )
                 }
