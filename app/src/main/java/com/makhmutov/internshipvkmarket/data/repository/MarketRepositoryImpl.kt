@@ -55,8 +55,7 @@ class MarketRepositoryImpl @Inject constructor(
             emit(
                 RequestMarketItemListResult.Error(
                     it,
-                    true,
-                    lastByCategoryMarketItems
+                    false,
                 )
             )
         }
