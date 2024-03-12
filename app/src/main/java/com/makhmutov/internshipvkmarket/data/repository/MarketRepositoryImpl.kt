@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -34,6 +33,8 @@ class MarketRepositoryImpl @Inject constructor(
         searchRequestFlow.emit(request)
     }
 
+    private var searchingList = listOf<MarketItemEntity>()
+
     private val searchMarketItemsFlow = flow {
         searchRequestFlow.collect {
             val response = withContext(Dispatchers.IO){
@@ -41,9 +42,10 @@ class MarketRepositoryImpl @Inject constructor(
                     apiService.searchMarketItems(it)
                 )
             }
+            searchingList = response
             emit(
                 RequestMarketItemListResult.Success(
-                    marketItems = response,
+                    marketItems = searchingList.toList(),
                     isLast = true
                 ) as RequestMarketItemListResult
             )
@@ -158,6 +160,7 @@ class MarketRepositoryImpl @Inject constructor(
     override fun getOneMarketItemByIdFlow(id: Int): Flow<RequestOneMarketItemResult> = flow {
         val marketItem =
             lastByCategoryMarketItems.find { it.id == id } ?:
+            searchingList.find { it.id == id } ?:
             lastMarketItems.find { it.id == id } ?:
             throw RuntimeException("market item isn't exist")
         emit(RequestOneMarketItemResult.Success(marketItem) as RequestOneMarketItemResult)

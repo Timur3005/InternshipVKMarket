@@ -19,7 +19,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -88,11 +87,8 @@ fun ProductsScreen(
                                 lazyListState.animateScrollToItem(index = 0)
                             }
                         },
-                        onSearchIconClickListener = {
-
-                        },
                         onSearch = {
-
+                            viewModel.searchMarketItems(it)
                         }
                     )
                 }
@@ -120,7 +116,6 @@ fun ProductsScreen(
 private fun TopAppBarTitle(
     categories: State<List<String>>,
     onDropdownMenuItemClickListener: (String) -> Unit,
-    onSearchIconClickListener: () -> Unit,
     onSearch: (String) -> Unit
 ) {
     val dropdownMenuExpanded = rememberSaveable {
@@ -138,14 +133,15 @@ private fun TopAppBarTitle(
         }
         Row(
             modifier = Modifier
+                .wrapContentHeight()
                 .weight(1f)
-                .height(50.dp)
             ,
             horizontalArrangement = Arrangement.Start
         ) {
             SearchBar(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .wrapContentHeight()
                 ,
                 query = queryState.value,
                 onQueryChange = {
@@ -172,17 +168,6 @@ private fun TopAppBarTitle(
             modifier = Modifier,
             horizontalArrangement = Arrangement.End
         ) {
-            IconButton(
-                onClick = {
-                    onSearchIconClickListener()
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Search,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
-            }
             Box {
                 IconButton(
                     onClick = {
