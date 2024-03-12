@@ -55,7 +55,7 @@ class MarketRepositoryImpl @Inject constructor(
             emit(
                 RequestMarketItemListResult.Error(
                     it,
-                    false,
+                    true,
                     lastByCategoryMarketItems
                 )
             )
@@ -120,7 +120,10 @@ class MarketRepositoryImpl @Inject constructor(
 
 
     override fun getOneMarketItemByIdFlow(id: Int): Flow<RequestOneMarketItemResult> = flow {
-        val marketItem = lastMarketItems[id - 1]
+        val marketItem =
+            lastByCategoryMarketItems.find { it.id == id } ?:
+            lastMarketItems.find { it.id == id } ?:
+            throw RuntimeException("market item isn't exist")
         emit(RequestOneMarketItemResult.Success(marketItem) as RequestOneMarketItemResult)
     }
         .retry(3L) {
