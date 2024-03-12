@@ -2,7 +2,6 @@ package com.makhmutov.internshipvkmarket.data.network.api
 
 import com.makhmutov.internshipvkmarket.data.network.models.RequestMarketItemsContainer
 import retrofit2.http.GET
-import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 

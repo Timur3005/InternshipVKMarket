@@ -3,6 +3,7 @@ package com.makhmutov.internshipvkmarket.presentation.screens.products
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.makhmutov.internshipvkmarket.domain.entities.RequestMarketItemListResult
+import com.makhmutov.internshipvkmarket.domain.usecases.GetCategoriesUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.GetMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.RequestMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.extentions.mergeWith
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 class ProductsViewModel @Inject constructor(
     getMarketItemsUseCase: GetMarketItemsUseCase,
+    getCategoriesUseCase: GetCategoriesUseCase,
     private val requestMarketItemsUseCase: RequestMarketItemsUseCase,
 ) : ViewModel() {
 
@@ -62,5 +64,8 @@ class ProductsViewModel @Inject constructor(
             requestMarketItemsUseCase()
         }
     }
+
+    val categories = getCategoriesUseCase()
+
 
 }

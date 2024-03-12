@@ -78,10 +78,10 @@ class MarketRepositoryImpl @Inject constructor(
         )
 
     override fun getOneMarketItemByIdFlow(id: Int): Flow<RequestOneMarketItemResult> = flow {
-        val marketItem = lastMarketItems[id-1]
+        val marketItem = lastMarketItems[id - 1]
         emit(RequestOneMarketItemResult.Success(marketItem) as RequestOneMarketItemResult)
     }
-        .retry(3L){
+        .retry(3L) {
             delay(DELAY_BEFORE_RETRY)
             true
         }
@@ -90,6 +90,14 @@ class MarketRepositoryImpl @Inject constructor(
     override suspend fun requestMarketItems() {
         requestMarketItemsFlow.emit(Unit)
     }
+
+    override fun getCategories(): Flow<List<String>> = flow {
+        emit(
+            withContext(Dispatchers.IO) {
+                apiService.getCategories()
+            }
+        )
+    }.retry()
 
     private companion object {
         const val DELAY_BEFORE_RETRY = 2000L
