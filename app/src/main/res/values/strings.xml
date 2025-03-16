@@ -12,4 +12,6 @@
     <string name="category">Category</string>
     <string name="stock">Stock</string>
     <string name="products_count">%1$s products</string>
+    <string name="title_auth_api">Authorization</string>
+    <string name="title_auth_impl">Authorization</string>
 </resources>
