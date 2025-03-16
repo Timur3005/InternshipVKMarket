@@ -1,22 +1,18 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.makhmutov.internshipvkmarket"
+    namespace = "com.example.auth_impl"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.makhmutov.internshipvkmarket"
         minSdk = 29
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -29,26 +25,19 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.get()
-    }
-    packaging {
-        resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        jvmTarget = "11"
     }
 }
 
 dependencies {
 
-    implementation(project(":auth_impl"))
+    api(project(":auth_api"))
+
+    implementation(libs.security.crypto)
 
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
