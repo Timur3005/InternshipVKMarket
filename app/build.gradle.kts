@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     id("kotlin-kapt")
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -50,11 +51,13 @@ dependencies {
 
     implementation(project(":auth_impl"))
 
-    implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.coil.compose)
     implementation(libs.navigation.compose)
+
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
 
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit)

@@ -9,16 +9,21 @@ import com.example.auth_impl.domain.repositories.AuthRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 @Module
-internal abstract class AuthModule {
+@InstallIn(SingletonComponent::class)
+internal interface AuthModule {
 
     @Binds
-    abstract fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
+    fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
 
     @Binds
-    abstract fun bindAuthRepository(impl: TokenManagerImpl): TokenManager
+    fun bindTokenManager(impl: TokenManagerImpl): TokenManager
 
-    @Provides
-    fun provideAuthApiService(): AuthorizationApiService = AuthApiFactory.apiService
+    companion object {
+        @Provides
+        fun provideAuthApiService(): AuthorizationApiService = AuthApiFactory.apiService
+    }
 }

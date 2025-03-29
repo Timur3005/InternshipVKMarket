@@ -17,8 +17,10 @@ lifecycleViewModel = "2.7.0"
 activityCompose = "1.8.2"
 navigationCompose = "2.7.7"
 
-# Dagger 2
-dagger = "2.48.1"
+# Hilt
+hilt = "2.51.1"
+hilt-compiler = "2.51.1"
+hilt-navigation-compose = "1.2.0"
 
 # Coil
 coil = "2.6.0"
@@ -34,12 +36,15 @@ androidxJunit = "1.1.5"
 espresso = "3.5.1"
 appcompat = "1.6.1"
 material = "1.10.0"
+jetbrainsKotlinJvm = "1.9.21"
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidDynamicFeature = { id = "com.android.dynamic-feature", version.ref = "androidGradlePlugin" }
 androidLibrary = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 
 [libraries]
 # Prefs
@@ -59,9 +64,10 @@ compose-ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
 
-# Dagger 2
-dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
-dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
+# Hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt-compiler" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
 
 # Coil
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }

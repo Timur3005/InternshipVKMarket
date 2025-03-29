@@ -17,7 +17,7 @@ fun MainScreen() {
             }
         },
         oneProductScreen = {
-            OneProductScreen(productId = it)
+            OneProductScreen()
         }
     )
 }

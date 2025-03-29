@@ -29,24 +29,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.makhmutov.internshipvkmarket.R
-import com.makhmutov.internshipvkmarket.presentation.app.getApplicationComponent
 
 @Composable
-fun OneProductScreen(
-    productId: Int
-) {
-    val component = getApplicationComponent()
-        .getOneProductComponentFactory()
-        .create(productId = productId)
-
-    val viewModelFactory = component.getViewModelFactory()
-
-    val viewModel: OneProductViewModel = viewModel(
-        factory = viewModelFactory
-    )
+fun OneProductScreen() {
+    val viewModel: OneProductViewModel = hiltViewModel()
     val screenState = viewModel.productFlow.collectAsState(initial = OneProductScreenState.Initial)
 
     OneProduct(screenState)

@@ -6,16 +6,17 @@ import com.makhmutov.internshipvkmarket.domain.respository.MarketRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 @Module
+@InstallIn(SingletonComponent::class)
 interface DataModule {
 
-    @ApplicationScope
     @Binds
     fun bindRepository(impl: MarketRepositoryImpl): MarketRepository
 
     companion object{
-        @ApplicationScope
         @Provides
         fun provideApiService() = ProductsApiFactory.apiService
     }
