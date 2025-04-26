@@ -44,4 +44,4 @@
 1. Убедитесь, что у вас установлена последняя версия **Android Studio**.
 2. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/your-repo-link.git
+   git clone https://github.com/Timur3005/MarketplaceRTUMIREA.git
