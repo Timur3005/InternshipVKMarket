@@ -1,6 +1,5 @@
 package com.makhmutov.internshipvkmarket.presentation.naviagtion
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -13,7 +12,7 @@ import com.makhmutov.internshipvkmarket.presentation.naviagtion.ScreenNavigation
 fun AppNavigationGraph(
     navController: NavHostController,
     productsScreen: @Composable () -> Unit,
-    oneProductScreen: @Composable (Int) -> Unit,
+    oneProductScreen: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -30,10 +29,7 @@ fun AppNavigationGraph(
                 }
             )
         ) {
-            val productId: Int = it.arguments?.getInt(KEY_ONE_PRODUCT_ID)
-                ?: throw RuntimeException("id isn't exist")
-            Log.d("AppNavigationGraph", productId.toString())
-            oneProductScreen(productId)
+            oneProductScreen()
         }
     }
 }

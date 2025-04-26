@@ -49,11 +49,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.makhmutov.internshipvkmarket.R
 import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
-import com.makhmutov.internshipvkmarket.presentation.app.getApplicationComponent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -62,11 +61,7 @@ import kotlinx.coroutines.launch
 fun ProductsScreen(
     onProductClickListener: (MarketItemEntity) -> Unit
 ) {
-
-    val component = getApplicationComponent()
-    val viewModel: ProductsViewModel = viewModel(
-        factory = component.getViewModelFactory()
-    )
+    val viewModel: ProductsViewModel = hiltViewModel()
 
     val screenState = viewModel.productsFlow.collectAsState(initial = ProductsScreenState.Initial)
     val categories = viewModel.categories.collectAsState(initial = listOf())

@@ -8,12 +8,14 @@ import com.makhmutov.internshipvkmarket.domain.usecases.RequestByCategoryMarketI
 import com.makhmutov.internshipvkmarket.domain.usecases.RequestMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.domain.usecases.SearchMarketItemsUseCase
 import com.makhmutov.internshipvkmarket.extentions.mergeWith
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
+@HiltViewModel
 class ProductsViewModel @Inject constructor(
     getMarketItemsUseCase: GetMarketItemsUseCase,
     getCategoriesUseCase: GetCategoriesUseCase,

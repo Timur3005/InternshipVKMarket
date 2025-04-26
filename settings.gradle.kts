@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Internship VK Market"
 include(":app")
- 
+include(":auth_api")
+include(":auth_impl")
