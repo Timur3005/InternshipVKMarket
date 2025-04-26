@@ -1,5 +1,8 @@
 package com.makhmutov.internshipvkmarket.domain.entities
 
+/**
+ * Класс-резултат запроса листа товаров
+ */
 sealed interface RequestMarketItemListResult {
     data class Error(
         val exception: Throwable,

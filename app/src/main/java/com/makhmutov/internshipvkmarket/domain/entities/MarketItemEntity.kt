@@ -1,5 +1,8 @@
 package com.makhmutov.internshipvkmarket.domain.entities
 
+/**
+ * Класс товара
+ */
 data class MarketItemEntity(
     val id: Int,
     val brand: String,
