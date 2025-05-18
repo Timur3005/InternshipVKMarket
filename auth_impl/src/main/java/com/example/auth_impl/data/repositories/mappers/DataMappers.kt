@@ -12,7 +12,7 @@ internal fun UserDto.toUserEntity(): UserEntity =
 
 internal fun UserEntity.toUserDto(): UserDto =
     UserDto(
-        name = name,
+        name = name ?: "",
         email = email,
         password = password,
     )

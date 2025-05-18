@@ -15,7 +15,7 @@ internal object AuthApiFactory {
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://localhost:8080/auth")
+        .baseUrl("http://localhost:8080/auth/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

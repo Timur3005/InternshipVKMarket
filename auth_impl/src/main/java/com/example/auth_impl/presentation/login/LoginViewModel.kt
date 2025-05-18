@@ -46,7 +46,6 @@ internal class LoginViewModel @Inject constructor(
                         it.copy(responseState = ResponseState.Success)
                     }
                     delay(100L)
-                    // TODO: Поправить навигацию Alcuberrie
                     _navigationFlow.tryEmit("products")
                 }
                 .onFailure {

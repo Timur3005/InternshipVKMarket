@@ -6,4 +6,5 @@
     <string name="logining">Авторизация</string>
     <string name="registration_navbar_title">Регистрация</string>
     <string name="registration_button_text">Зарегистрироваться</string>
+    <string name="hi">Привет!</string>
 </resources>

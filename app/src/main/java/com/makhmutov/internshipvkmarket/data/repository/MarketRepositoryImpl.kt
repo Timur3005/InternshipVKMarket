@@ -20,7 +20,9 @@ import kotlinx.coroutines.flow.retry
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class MarketRepositoryImpl @Inject constructor(
     private val apiService: ProductsApiService,
     private val mapper: MarketMapper

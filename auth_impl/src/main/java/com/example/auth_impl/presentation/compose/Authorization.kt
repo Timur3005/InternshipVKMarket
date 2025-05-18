@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -49,10 +50,15 @@ internal fun Authorization(
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier.padding(paddingValues).fillMaxSize(),
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(16.dp)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TextField(
+                modifier = Modifier.fillMaxWidth(),
                 placeholder = {
                     Text(text = stringResource(R.string.auth_email))
                 },
@@ -60,7 +66,9 @@ internal fun Authorization(
                 onValueChange = onEmailChange
             )
             TextField(
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
                 placeholder = {
                     Text(text = stringResource(R.string.password))
                 },

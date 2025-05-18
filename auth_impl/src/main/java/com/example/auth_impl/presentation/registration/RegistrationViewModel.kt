@@ -6,9 +6,9 @@ import com.example.auth_api.domain.entities.UserEntity
 import com.example.auth_impl.domain.repositories.AuthRepository
 import com.example.auth_impl.presentation.login.AuthScreenState
 import com.example.auth_impl.presentation.login.ResponseState
+import com.example.auth_impl.presentation.nav.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -47,9 +47,7 @@ internal class RegistrationViewModel @Inject constructor(
                     _state.update {
                         it.copy(responseState = ResponseState.Success)
                     }
-                    delay(100L)
-                    // TODO: Поправить навигацию Alcuberrie
-                    _navigationFlow.tryEmit("products")
+                    _navigationFlow.tryEmit(Screens.Products.name.lowercase())
                 }
                 .onFailure {
                     _state.update {

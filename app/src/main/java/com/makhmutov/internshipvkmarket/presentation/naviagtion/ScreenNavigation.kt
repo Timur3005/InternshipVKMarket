@@ -11,10 +11,18 @@ sealed class ScreenNavigation(
             return "$ONE_PRODUCT_ROOT/${product.id}"
         }
     }
+    data object Login : ScreenNavigation(LOGIN)
+    data object Authorization : ScreenNavigation(AUTHORIZATION)
+    data object Registration : ScreenNavigation(REGISTRATION)
+    data object Greeting : ScreenNavigation(GREETING)
 
     companion object {
         const val KEY_ONE_PRODUCT_ID = "market_item"
         private const val PRODUCTS_ROUTE = "products"
+        private const val LOGIN = "login"
+        private const val AUTHORIZATION = "authorization"
+        private const val GREETING = "greeting"
+        private const val REGISTRATION = "registration"
         private const val ONE_PRODUCT_ROOT = "one_product"
         private const val COMMENTS_ROUTE = "$ONE_PRODUCT_ROOT/{$KEY_ONE_PRODUCT_ID}"
     }

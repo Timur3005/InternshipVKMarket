@@ -10,7 +10,7 @@ import com.example.auth_impl.R
 import com.example.auth_impl.presentation.compose.Authorization
 
 @Composable
-internal fun LoginScreen(onNavigate: (String) -> Unit) {
+fun LoginScreen(onNavigate: (String) -> Unit) {
 
     val viewModel: LoginViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()

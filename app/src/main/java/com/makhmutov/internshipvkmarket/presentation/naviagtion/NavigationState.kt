@@ -19,6 +19,12 @@ class NavigationState(
             restoreState = true
         }
     }
+
+    fun navigate(route: String) {
+        navController.navigate(route) {
+            launchSingleTop = true
+        }
+    }
 }
 
 @Composable

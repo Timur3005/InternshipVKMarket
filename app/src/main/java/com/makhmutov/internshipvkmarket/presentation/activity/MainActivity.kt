@@ -9,7 +9,9 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.makhmutov.internshipvkmarket.presentation.screens.main.MainScreen
 import com.makhmutov.internshipvkmarket.presentation.ui.theme.InternshipVKMarketTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

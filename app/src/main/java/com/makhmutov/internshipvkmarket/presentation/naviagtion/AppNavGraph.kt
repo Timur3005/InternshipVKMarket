@@ -9,15 +9,31 @@ import androidx.navigation.navArgument
 import com.makhmutov.internshipvkmarket.presentation.naviagtion.ScreenNavigation.Companion.KEY_ONE_PRODUCT_ID
 
 @Composable
-fun AppNavigationGraph(
+internal fun AppNavigationGraph(
     navController: NavHostController,
     productsScreen: @Composable () -> Unit,
     oneProductScreen: @Composable () -> Unit,
+    loginScreen: @Composable () -> Unit,
+    registrationScreen: @Composable () -> Unit,
+    authScreen: @Composable () -> Unit,
+    greetingScreen: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navController,
-        startDestination = ScreenNavigation.Products.route
+        startDestination = ScreenNavigation.Greeting.route
     ) {
+        composable(ScreenNavigation.Login.route) {
+            loginScreen()
+        }
+        composable(ScreenNavigation.Registration.route) {
+            registrationScreen()
+        }
+        composable(ScreenNavigation.Authorization.route) {
+            authScreen()
+        }
+        composable(ScreenNavigation.Greeting.route) {
+            greetingScreen()
+        }
         composable(ScreenNavigation.Products.route) {
             productsScreen()
         }
