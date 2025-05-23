@@ -1,5 +1,6 @@
 package com.makhmutov.internshipvkmarket.di
 
+import com.example.auth_api.domain.entities.TokenManager
 import com.makhmutov.internshipvkmarket.data.network.api.ProductsApiFactory
 import com.makhmutov.internshipvkmarket.data.repository.MarketRepositoryImpl
 import com.makhmutov.internshipvkmarket.domain.respository.MarketRepository
@@ -16,8 +17,10 @@ interface DataModule {
     @Binds
     fun bindRepository(impl: MarketRepositoryImpl): MarketRepository
 
-    companion object{
+    companion object {
         @Provides
-        fun provideApiService() = ProductsApiFactory.apiService
+        fun provideApiService(
+            tokenManager: TokenManager
+        ) = ProductsApiFactory(tokenManager).apiService
     }
 }

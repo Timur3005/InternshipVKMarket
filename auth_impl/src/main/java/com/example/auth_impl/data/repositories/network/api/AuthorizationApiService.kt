@@ -7,9 +7,9 @@ import retrofit2.http.POST
 
 internal interface AuthorizationApiService {
 
-    @POST("/login")
+    @POST("/auth/login")
     suspend fun login(@Body userData: UserDto): AuthTokenDto
 
-    @POST("/register")
+    @POST("auth/register")
     suspend fun register(@Body userData: UserDto): AuthTokenDto
 }

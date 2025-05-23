@@ -7,15 +7,15 @@ kotlin = "1.9.21"
 securityCrypto = "1.0.0"
 
 # Compose
-composeBom = "2023.08.00"
+composeBom = "2025.05.00"
 compose = "1.5.7"
 
 # AndroidX
-coreKtx = "1.12.0"
-lifecycleRuntime = "2.7.0"
-lifecycleViewModel = "2.7.0"
-activityCompose = "1.8.2"
-navigationCompose = "2.7.7"
+coreKtx = "1.16.0"
+lifecycleRuntime = "2.9.0"
+lifecycleViewModel = "2.9.0"
+activityCompose = "1.10.1"
+navigationCompose = "2.9.0"
 
 # Hilt
 hilt = "2.51.1"
@@ -26,16 +26,16 @@ hilt-navigation-compose = "1.2.0"
 coil = "2.6.0"
 
 # Networking
-retrofit = "2.9.0"
-retrofitConverterGson = "2.9.0"
-okhttpLogging = "4.9.3"
+retrofit = "2.11.0"
+retrofitConverterGson = "2.11.0"
+okhttpLogging = "4.12.0"
 
 # Testing
 junit = "4.13.2"
-androidxJunit = "1.1.5"
-espresso = "3.5.1"
-appcompat = "1.6.1"
-material = "1.10.0"
+androidxJunit = "1.2.1"
+espresso = "3.6.1"
+appcompat = "1.7.0"
+material = "1.12.0"
 jetbrainsKotlinJvm = "1.9.21"
 
 [plugins]
