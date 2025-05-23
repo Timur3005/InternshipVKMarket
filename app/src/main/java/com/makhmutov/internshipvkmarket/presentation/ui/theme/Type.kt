@@ -32,3 +32,19 @@ val Typography = Typography(
     )
     */
 )
+
+val base = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+    fontSize = 16.sp,
+    lineHeight = 24.sp,
+    letterSpacing = 0.5.sp
+)
+
+val large = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+    fontSize = 32.sp,
+    lineHeight = 48.sp,
+    letterSpacing = 0.5.sp
+)

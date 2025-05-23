@@ -25,12 +25,12 @@ internal fun MainScreen() {
         },
         loginScreen = {
             LoginScreen {
-                navState.navigate(it)
+                navState.navigateWithReplaceCurrent(it)
             }
         },
         registrationScreen = {
             RegistrationScreen {
-                navState.navigate(it)
+                navState.navigateWithReplaceCurrent(it)
             }
         },
         authScreen = {
@@ -40,7 +40,7 @@ internal fun MainScreen() {
         },
         greetingScreen = {
             GreetingScreen {
-                navState.navigate(it)
+                navState.navigateWithReplaceCurrent(it)
             }
         }
     )

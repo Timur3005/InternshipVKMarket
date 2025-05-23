@@ -25,6 +25,13 @@ class NavigationState(
             launchSingleTop = true
         }
     }
+
+    fun navigateWithReplaceCurrent(route: String) {
+        navController.navigate(route) {
+            popUpTo(0) { inclusive = true }
+            launchSingleTop = true
+        }
+    }
 }
 
 @Composable
