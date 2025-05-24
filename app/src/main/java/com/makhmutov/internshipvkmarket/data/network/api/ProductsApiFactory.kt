@@ -30,7 +30,7 @@ class ProductsApiFactory(
         .build()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("https://18f7-166-1-190-111.ngrok-free.app/")
+        .baseUrl("https://b2e5-45-114-62-227.ngrok-free.app/")
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()

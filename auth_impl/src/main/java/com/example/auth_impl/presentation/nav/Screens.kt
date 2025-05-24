@@ -5,4 +5,5 @@ internal enum class Screens {
     Authorization,
     Login,
     Registration,
+    Profile
 }

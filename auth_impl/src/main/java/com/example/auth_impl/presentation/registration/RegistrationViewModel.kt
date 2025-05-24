@@ -74,4 +74,13 @@ internal class RegistrationViewModel @Inject constructor(
             )
         )
     }
+
+    fun updateName(name: String) {
+        val state = _state.value
+        _state.value = state.copy(
+            userEntity = state.userEntity.copy(
+                name = name
+            )
+        )
+    }
 }

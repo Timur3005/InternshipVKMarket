@@ -7,4 +7,6 @@ interface TokenManager {
     fun getToken(): String?
 
     fun clearToken()
+
+    fun parseToken(): Pair<String, String>
 }

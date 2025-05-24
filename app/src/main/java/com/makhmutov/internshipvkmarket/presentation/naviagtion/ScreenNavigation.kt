@@ -6,11 +6,13 @@ sealed class ScreenNavigation(
     val route: String
 ) {
     data object Products : ScreenNavigation(PRODUCTS_ROUTE)
+    data object Profile : ScreenNavigation(PROFILE)
     data object OneProduct : ScreenNavigation(COMMENTS_ROUTE) {
         fun getRouteWithArgs(product: MarketItemEntity): String {
             return "$ONE_PRODUCT_ROOT/${product.id}"
         }
     }
+
     data object Login : ScreenNavigation(LOGIN)
     data object Authorization : ScreenNavigation(AUTHORIZATION)
     data object Registration : ScreenNavigation(REGISTRATION)
@@ -19,6 +21,7 @@ sealed class ScreenNavigation(
     companion object {
         const val KEY_ONE_PRODUCT_ID = "market_item"
         private const val PRODUCTS_ROUTE = "products"
+        private const val PROFILE = "profile"
         private const val LOGIN = "login"
         private const val AUTHORIZATION = "authorization"
         private const val GREETING = "greeting"

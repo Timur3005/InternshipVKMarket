@@ -17,6 +17,7 @@ internal fun AppNavigationGraph(
     registrationScreen: @Composable () -> Unit,
     authScreen: @Composable () -> Unit,
     greetingScreen: @Composable () -> Unit,
+    profileScreen: @Composable () -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -46,6 +47,10 @@ internal fun AppNavigationGraph(
             )
         ) {
             oneProductScreen()
+        }
+
+        composable(ScreenNavigation.Profile.route) {
+            profileScreen()
         }
     }
 }

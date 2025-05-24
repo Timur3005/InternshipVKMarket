@@ -37,6 +37,7 @@ internal fun Authorization(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onButtonPressed: () -> Unit,
+    nameTf: @Composable (() -> Unit)? = null
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -77,8 +78,11 @@ internal fun Authorization(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            nameTf?.invoke()
             TextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
                 placeholder = {
                     Text(text = stringResource(R.string.auth_email))
                 },
