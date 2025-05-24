@@ -78,9 +78,7 @@ private fun SuccessfullyProducts(
         ) {
 
             ProductCard(
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 product = it,
                 onProductClickListener = {
                     onProductClickListener(it)
