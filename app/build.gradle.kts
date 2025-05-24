@@ -51,6 +51,10 @@ dependencies {
 
     implementation(project(":auth_impl"))
 
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.room.compiler)
+
     implementation(libs.lifecycle.viewmodel.compose)
     implementation(libs.coil.compose)
     implementation(libs.navigation.compose)

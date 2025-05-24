@@ -1,6 +1,5 @@
 package com.makhmutov.internshipvkmarket.presentation.screens.oneproduct
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +15,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -28,22 +28,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.makhmutov.internshipvkmarket.R
+import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
 
 @Composable
 fun OneProductScreen() {
     val viewModel: OneProductViewModel = hiltViewModel()
     val screenState = viewModel.productFlow.collectAsState(initial = OneProductScreenState.Initial)
 
-    OneProduct(screenState)
+    OneProduct(screenState) {
+        viewModel.saveProduct(it)
+    }
 
 }
 
 @Composable
-private fun OneProduct(state: State<OneProductScreenState>) {
+private fun OneProduct(
+    state: State<OneProductScreenState>,
+    onSave: (MarketItemEntity) -> Unit,
+) {
 
     when (val realState = state.value) {
 
@@ -70,14 +80,16 @@ private fun OneProduct(state: State<OneProductScreenState>) {
         }
 
         is OneProductScreenState.Product -> {
-            Product(realState)
+            Product(productState = realState, onSave = onSave)
         }
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun Product(productState: OneProductScreenState.Product) {
+private fun Product(
+    productState: OneProductScreenState.Product,
+    onSave: (MarketItemEntity) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -204,7 +216,24 @@ private fun Product(productState: OneProductScreenState.Product) {
             characteristic = stringResource(R.string.products_count, productState.product.stock)
         )
 
-
+        Button(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .padding(8.dp),
+            onClick = { onSave(productState.product) },
+        ) {
+            Text(
+                text = "Добавить в корзину",
+                style = TextStyle(
+                    fontFamily = FontFamily.Default,
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 18.sp,
+                    lineHeight = 24.sp,
+                    letterSpacing = 0.25.sp
+                ),
+            )
+        }
     }
 }
 

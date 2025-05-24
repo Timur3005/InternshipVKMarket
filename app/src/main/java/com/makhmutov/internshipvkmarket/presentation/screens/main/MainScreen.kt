@@ -9,6 +9,7 @@ import com.example.auth_impl.presentation.registration.RegistrationScreen
 import com.makhmutov.internshipvkmarket.presentation.naviagtion.AppNavigationGraph
 import com.makhmutov.internshipvkmarket.presentation.naviagtion.ScreenNavigation
 import com.makhmutov.internshipvkmarket.presentation.naviagtion.rememberNavigationState
+import com.makhmutov.internshipvkmarket.presentation.screens.basket.BasketScreen
 import com.makhmutov.internshipvkmarket.presentation.screens.oneproduct.OneProductScreen
 import com.makhmutov.internshipvkmarket.presentation.screens.products.ProductsScreen
 
@@ -22,7 +23,8 @@ internal fun MainScreen() {
                 onProductClickListener = { navState.navigateToOneProduct(it) },
                 onProfileClick = {
                     navState.navigate(ScreenNavigation.Profile.route)
-                }
+                },
+                onFabClick = navState::navigate
             )
 
         },
@@ -53,6 +55,9 @@ internal fun MainScreen() {
             ProfileScreen {
                 navState.navigateWithReplaceCurrent(it)
             }
+        },
+        basket = {
+            BasketScreen(navState::navigateToOneProduct)
         }
     )
 }

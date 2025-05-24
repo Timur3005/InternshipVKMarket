@@ -17,12 +17,14 @@ sealed class ScreenNavigation(
     data object Authorization : ScreenNavigation(AUTHORIZATION)
     data object Registration : ScreenNavigation(REGISTRATION)
     data object Greeting : ScreenNavigation(GREETING)
+    data object Basket : ScreenNavigation(BASKET)
 
     companion object {
         const val KEY_ONE_PRODUCT_ID = "market_item"
         private const val PRODUCTS_ROUTE = "products"
         private const val PROFILE = "profile"
         private const val LOGIN = "login"
+        private const val BASKET = "basket"
         private const val AUTHORIZATION = "authorization"
         private const val GREETING = "greeting"
         private const val REGISTRATION = "registration"

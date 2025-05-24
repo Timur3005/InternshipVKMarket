@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -26,6 +27,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -54,6 +56,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.SubcomposeAsyncImage
 import com.makhmutov.internshipvkmarket.R
 import com.makhmutov.internshipvkmarket.domain.entities.MarketItemEntity
+import com.makhmutov.internshipvkmarket.presentation.naviagtion.ScreenNavigation
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -62,6 +65,7 @@ import kotlinx.coroutines.launch
 fun ProductsScreen(
     onProductClickListener: (MarketItemEntity) -> Unit,
     onProfileClick: () -> Unit,
+    onFabClick: (String) -> Unit,
 ) {
     val viewModel: ProductsViewModel = hiltViewModel()
 
@@ -97,7 +101,20 @@ fun ProductsScreen(
             )
         },
         containerColor = MaterialTheme.colorScheme.surface,
-        contentColor = MaterialTheme.colorScheme.onSurface
+        contentColor = MaterialTheme.colorScheme.onSurface,
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    onFabClick(ScreenNavigation.Basket.route)
+                },
+                content = {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = null,
+                    )
+                },
+            )
+        },
     ) { paddingValues ->
         Products(
             paddingValues = paddingValues,
@@ -399,7 +416,7 @@ private fun LastElement(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ProductCard(
+internal fun ProductCard(
     modifier: Modifier = Modifier,
     product: MarketItemEntity,
     onProductClickListener: () -> Unit,
