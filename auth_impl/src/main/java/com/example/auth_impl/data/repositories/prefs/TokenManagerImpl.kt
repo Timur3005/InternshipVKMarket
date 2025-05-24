@@ -6,6 +6,8 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.example.auth_api.domain.entities.TokenManager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import org.json.JSONObject
+import java.util.Base64
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -38,5 +40,18 @@ internal class TokenManagerImpl @Inject constructor(
 
     override fun clearToken() {
         sharedPreferences.edit { remove(TOKEN_KEY) }
+    }
+
+    private fun parseJwt(jwt: String): Pair<String, String>? {
+        val parts = jwt.split(".")
+        if (parts.size != 3) return null
+
+        val payloadJson = String(Base64.getUrlDecoder().decode(parts[1]))
+        val payload = JSONObject(payloadJson)
+
+        val name = payload.optString("name", "")
+        val email = payload.optString("email", "")
+
+        return Pair(name, email)
     }
 }
