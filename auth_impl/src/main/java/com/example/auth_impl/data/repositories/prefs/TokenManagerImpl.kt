@@ -42,9 +42,13 @@ internal class TokenManagerImpl @Inject constructor(
         sharedPreferences.edit { remove(TOKEN_KEY) }
     }
 
-    private fun parseJwt(jwt: String): Pair<String, String>? {
+    override fun parseToken(): Pair<String, String> {
+        return parseJwt(getToken().toString())
+    }
+
+    private fun parseJwt(jwt: String): Pair<String, String> {
         val parts = jwt.split(".")
-        if (parts.size != 3) return null
+        if (parts.size != 3) return Pair("", "")
 
         val payloadJson = String(Base64.getUrlDecoder().decode(parts[1]))
         val payload = JSONObject(payloadJson)

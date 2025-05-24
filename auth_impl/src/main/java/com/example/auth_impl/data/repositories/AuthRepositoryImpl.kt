@@ -19,8 +19,7 @@ internal class AuthRepositoryImpl @Inject constructor(
         tokenManager.saveToken(token.token)
     }
 
-    override suspend fun logout(userData: UserEntity): Result<Unit> = runCatching {
-        // TODO: логика выхода
+    override suspend fun logout(): Result<Unit> = runCatching {
         tokenManager.clearToken()
     }
 

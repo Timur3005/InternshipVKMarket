@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -59,7 +60,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductsScreen(
-    onProductClickListener: (MarketItemEntity) -> Unit
+    onProductClickListener: (MarketItemEntity) -> Unit,
+    onProfileClick: () -> Unit,
 ) {
     val viewModel: ProductsViewModel = hiltViewModel()
 
@@ -88,7 +90,8 @@ fun ProductsScreen(
                                 delay(500)
                                 lazyListState.animateScrollToItem(index = 0)
                             }
-                        }
+                        },
+                        onProfileClick = onProfileClick
                     )
                 }
             )
@@ -115,7 +118,8 @@ fun ProductsScreen(
 private fun TopAppBarTitle(
     categories: State<List<String>>,
     onDropdownMenuItemClickListener: (String) -> Unit,
-    onSearch: (String) -> Unit
+    onSearch: (String) -> Unit,
+    onProfileClick: () -> Unit
 ) {
     val dropdownMenuExpanded = rememberSaveable {
         mutableStateOf(false)
@@ -133,15 +137,13 @@ private fun TopAppBarTitle(
         Row(
             modifier = Modifier
                 .wrapContentHeight()
-                .weight(1f)
-            ,
+                .weight(1f),
             horizontalArrangement = Arrangement.Start
         ) {
             SearchBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .wrapContentHeight()
-                ,
+                    .wrapContentHeight(),
                 query = queryState.value,
                 onQueryChange = {
                     queryState.value = it
@@ -168,18 +170,32 @@ private fun TopAppBarTitle(
             horizontalArrangement = Arrangement.End
         ) {
             Box {
-                IconButton(
-                    onClick = {
-                        dropdownMenuExpanded.value = !dropdownMenuExpanded.value
+                Row {
+                    IconButton(
+                        onClick = {
+                            dropdownMenuExpanded.value = !dropdownMenuExpanded.value
+                        }
+                    ) {
+                        Icon(
+                            painter = painterResource(
+                                id = R.drawable.baseline_filter_list_alt_24
+                            ),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
                     }
-                ) {
-                    Icon(
-                        painter = painterResource(
-                            id = R.drawable.baseline_filter_list_alt_24
-                        ),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
-                    )
+                    Spacer(Modifier.width(8.dp))
+                    IconButton(
+                        onClick = {
+                            onProfileClick()
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
                 }
                 DropDownFilter(
                     state = dropdownMenuExpanded,
@@ -251,8 +267,7 @@ private fun SuccessfullyProducts(
         modifier = Modifier
             .padding(paddingValues)
             .padding(start = 8.dp, end = 8.dp)
-            .fillMaxSize()
-        ,
+            .fillMaxSize(),
         contentPadding = PaddingValues(
             top = 20.dp,
             bottom = 20.dp,
@@ -404,8 +419,10 @@ private fun ProductCard(
         Column(
             modifier = Modifier.padding(8.dp)
         ) {
-            Text(text = product.title, style = MaterialTheme.typography.titleLarge
-                .copy(fontWeight = FontWeight.Bold))
+            Text(
+                text = product.title, style = MaterialTheme.typography.titleLarge
+                    .copy(fontWeight = FontWeight.Bold)
+            )
             Spacer(modifier = Modifier.height(8.dp))
             SubcomposeAsyncImage(
                 model = product.thumbnail,
@@ -438,12 +455,12 @@ private fun ProductCard(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Start
-            ){
+            ) {
                 Text(
                     text = "Cost ${product.price}$",
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold)
                 )
-                if (product.discountPercentage > 0.0){
+                if (product.discountPercentage > 0.0) {
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         text = "SALE -${product.discountPercentage}%",
